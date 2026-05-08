@@ -35,6 +35,9 @@ jobs:
       - name: Add .nojekyll 📄
         run: touch build/web/.nojekyll
 
+      - name: Check build output 🔍
+        run: ls -R build/web
+
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
