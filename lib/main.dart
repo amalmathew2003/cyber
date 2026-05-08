@@ -15,7 +15,7 @@ class CyberDefenderApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cyber Defender',
+      title: 'Cyber Defender  ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
