@@ -10,6 +10,7 @@ Future<void> main() async {
 }
 
 class CyberDefenderApp extends StatelessWidget {
+  
   const CyberDefenderApp({super.key});
 
   @override

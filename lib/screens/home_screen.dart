@@ -1,4 +1,3 @@
-
 import 'dart:io' show File;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -12,7 +11,8 @@ import 'package:share_plus/share_plus.dart';
 
 // Conditional imports
 import '../services/web_download_stub.dart'
-    if (dart.library.html) '../services/web_download_web.dart' as web_helper;
+    if (dart.library.html) '../services/web_download_web.dart'
+    as web_helper;
 
 import '../models/cyber_poster.dart';
 import '../services/api_service.dart';
@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _topicController = TextEditingController();
   final ScreenshotController _screenshotController = ScreenshotController();
-  
+
   CyberPoster? _generatedPoster;
   bool _isLoading = false;
   String? _error;
@@ -52,15 +52,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final poster = await ApiService.generatePosterContent(
-        _topicController.text, 
-        _apiKey!, 
-        _selectedLanguage
+        _topicController.text,
+        _apiKey!,
+        _selectedLanguage,
       );
       setState(() {
         _generatedPoster = poster;
         _isLoading = false;
       });
     } catch (e) {
+      //
       setState(() {
         _error = e.toString();
         _isLoading = false;
@@ -82,16 +83,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final imagePath = await File('${directory.path}/cyber_poster.png').create();
+      final imagePath = await File(
+        '${directory.path}/cyber_poster.png',
+      ).create();
       await imagePath.writeAsBytes(image);
 
       await ImageGallerySaverPlus.saveImage(image);
       final caption = _generateCaption();
       await Share.shareXFiles([XFile(imagePath.path)], text: caption);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving image: $e")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error saving image: $e")));
     }
   }
 
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _generateCaption() {
     if (_generatedPoster == null) return "";
     final p = _generatedPoster!;
-    
+
     return '''${p.title}
 
 ${p.description}
@@ -125,7 +128,10 @@ ${p.hashtags.join(' ')}
       appBar: AppBar(
         title: Text(
           "CYBER DEFENDER",
-          style: GoogleFonts.outfit(fontWeight: FontWeight.bold, letterSpacing: 2),
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF1a1a2e),
@@ -143,7 +149,10 @@ ${p.hashtags.join(' ')}
                 const Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 40),
-                    child: SpinKitDoubleBounce(color: Colors.redAccent, size: 50.0),
+                    child: SpinKitDoubleBounce(
+                      color: Colors.redAccent,
+                      size: 50.0,
+                    ),
                   ),
                 )
               else if (_error != null)
@@ -234,7 +243,10 @@ ${p.hashtags.join(' ')}
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text("GENERATE POSTER", style: TextStyle(fontWeight: FontWeight.bold)),
+            child: const Text(
+              "GENERATE POSTER",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -271,7 +283,9 @@ ${p.hashtags.join(' ')}
                 backgroundColor: Colors.redAccent,
                 foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 56),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -283,7 +297,9 @@ ${p.hashtags.join(' ')}
                 foregroundColor: Colors.white,
                 side: BorderSide(color: Colors.white.withValues(alpha: 0.3)),
                 minimumSize: const Size(double.infinity, 56),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
           ],
@@ -319,11 +335,18 @@ ${p.hashtags.join(' ')}
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Column(
           children: [
-            Icon(Icons.shield_moon_outlined, color: Colors.white.withValues(alpha: 0.1), size: 100),
+            Icon(
+              Icons.shield_moon_outlined,
+              color: Colors.white.withValues(alpha: 0.1),
+              size: 100,
+            ),
             const SizedBox(height: 16),
             Text(
               "Ready to defend?",
-              style: GoogleFonts.outfit(color: Colors.white.withValues(alpha: 0.3), fontSize: 18),
+              style: GoogleFonts.outfit(
+                color: Colors.white.withValues(alpha: 0.3),
+                fontSize: 18,
+              ),
             ),
           ],
         ),
